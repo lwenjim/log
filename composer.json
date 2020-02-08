@@ -1,0 +1,32 @@
+{
+    "name": "lwenjim/log",
+    "description": "record log",
+    "version": "1.0",
+    "license": "1.0",
+    "require": {
+        "ext-json": "^1.5",
+        "monolog/monolog": "1.24.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "JimLog\\": "src/"
+        },
+        "files": [
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "7.5.9"
+    },
+    "config": {
+        "secure-http": false,
+        "vendor-dir": "vendor",
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    }
+}

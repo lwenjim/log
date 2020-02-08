@@ -1,2 +1,2 @@
-# log
-recourd
+# async-dispatch
+Concurrent processing job
