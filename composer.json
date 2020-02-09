@@ -2,7 +2,7 @@
     "name": "lwenjim/log",
     "description": "record log",
     "version": "1.0",
-    "license": "Apache-2.0",
+    "license": "MIT",
     "require": {
         "ext-json": "^1.5",
         "monolog/monolog": "1.24.0"
