@@ -16,7 +16,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Test\\": "tests/"
+            "JimLog\\Tests\\": "tests/"
         }
     },
     "require-dev": {
@@ -28,5 +28,11 @@
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
     }
+}
 }

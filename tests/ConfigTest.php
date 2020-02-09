@@ -6,13 +6,14 @@
  * Time: 5:20 PM
  */
 
-namespace Test;
+namespace JimLog\Tests;
 
 
 
 use JimLog\Config;
+use PHPUnit\Framework\TestCase;
 
-class ConfigTest extends Abs
+class ConfigTest extends TestCase
 {
     /**
      * @test
