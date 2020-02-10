@@ -19,18 +19,7 @@ class Ini
     {
         $this->configFile = $configFile;
         $data             = parse_ini_file($configFile, true);
-        $this->data       = $data['common'];
-        foreach ($data[Config::ENV . ':common'] as $key => $value) {
-            if (strpos($key, '.') !== false) {
-                [$prefix, $name] = explode('.', $key, 2);
-                if (!empty($name) && $channel != $prefix) {
-                    continue;
-                }
-                $this->data[$name] = $value;
-            } else {
-                $this->data[$key] = $value;
-            }
-        }
+        $this->data       = $data['common'] + $data[Config::ENV . ':common'];
     }
 
     public function getData()
