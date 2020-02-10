@@ -64,4 +64,9 @@ class Config
     {
         return self::ENV_DEV;
     }
+
+    public static function __callStatic($name, $arguments)
+    {
+        return self::ini($name);
+    }
 }
