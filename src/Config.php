@@ -20,7 +20,7 @@ class Config
     const ENV       = 'dev';
     protected static $configs = [];
 
-    public function get($key)
+    public static function get($key)
     {
         return self::basic()->get($key);
     }
