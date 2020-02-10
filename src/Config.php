@@ -8,48 +8,35 @@
 
 namespace JimLog;
 
-/**
- * @method Ini basic()
- * @method Ini kafka()
- * @method Ini redis()
- * @method Ini log()
- * Class Config
- * @package JimLog
- */
 class Config
 {
-    use Instance;
     const CONF_PATH = '../config/';
     const APP_PATH  = '../';
     const ENV       = 'dev';
-    protected $configs = [];
+    protected static $configs = [];
 
     public function get($key)
     {
-        return $this->basic()->get($key);
+        return self::basic()->get($key);
     }
 
-    public function getAndImplode($key, $glue = "", $replace = '')
+    public static function getAndImplode($key, $glue = "", $replace = '')
     {
-        return $this->basic()->getAndImplode($key, $glue, $replace);
+        return self::ini()->getAndImplode($key, $glue, $replace);
     }
 
-    public function __call($name, $arguments)
+    protected static function cacheIni($key, Ini $ini)
     {
-        return $this->ini(sprintf('%s_ini', $name));
+        self::$configs[$key] = $ini;
     }
 
-    protected function cacheIni($key, Ini $ini)
+    public static function ini($name = 'basic')
     {
-        $this->configs[$key] = $ini;
-    }
-
-    public function ini($name)
-    {
-        if (!isset($this->configs[$name])) {
+        $name .= '_ini';
+        if (!isset(self::$configs[$name])) {
             throw new \Exception(sprintf('Not found Config for %s', $name));
         }
-        return $this->configs[$name];
+        return self::$configs[$name];
     }
 
     public static function loadIni()
@@ -57,7 +44,7 @@ class Config
         foreach (static::getUnit() as $name) {
             $configFile = Config::CONF_PATH . "/{$name}.ini";
             $key        = "{$name}_ini";
-            self::getInstance()->cacheIni($key, new Ini($configFile));
+            self::cacheIni($key, new Ini($configFile));
         }
     }
 
@@ -66,15 +53,5 @@ class Config
         return array_map(function ($file) {
             return pathinfo($file, PATHINFO_FILENAME);
         }, array_diff(scandir(Config::CONF_PATH), ['.', '..']));
-    }
-
-    public function __debugInfo()
-    {
-        return $this->basic()->getData();
-    }
-
-    public function __get($name)
-    {
-        return $this->__debugInfo()[$name];
     }
 }
