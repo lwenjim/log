@@ -12,6 +12,7 @@
             "JimLog\\": "src/"
         },
         "files": [
+            "common/help.php"
         ]
     },
     "autoload-dev": {

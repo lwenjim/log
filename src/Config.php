@@ -12,6 +12,11 @@ class Config
 {
     const CONF_PATH = '../config/';
     const APP_PATH  = '../';
+    const RUNTIME_PATH = '../runtime';
+    const ENV_DEV   = 'dev';
+    const ENV_TEST  = 'test';
+    const ENV_PRE   = 'pre';
+    const ENV_PROD  = 'prod';
     const ENV       = 'dev';
     protected static $configs = [];
 
@@ -53,5 +58,10 @@ class Config
         return array_map(function ($file) {
             return pathinfo($file, PATHINFO_FILENAME);
         }, array_diff(scandir(Config::CONF_PATH), ['.', '..']));
+    }
+
+    public static function getEnv()
+    {
+        return self::ENV_DEV;
     }
 }
