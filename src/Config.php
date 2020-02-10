@@ -10,14 +10,15 @@ namespace JimLog;
 
 class Config
 {
-    const CONF_PATH = '../config/';
-    const APP_PATH  = '../';
+    const CONF_PATH    = '../config/';
+    const APP_PATH     = '../';
     const RUNTIME_PATH = '../runtime';
-    const ENV_DEV   = 'dev';
-    const ENV_TEST  = 'test';
-    const ENV_PRE   = 'pre';
-    const ENV_PROD  = 'prod';
-    const ENV       = 'dev';
+    const ENV_DEV      = 'dev';
+    const ENV_TEST     = 'test';
+    const ENV_PRE      = 'pre';
+    const ENV_PROD     = 'prod';
+    const ENV          = 'dev';
+
     protected static $configs = [];
 
     public static function get($key)
