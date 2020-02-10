@@ -20,9 +20,9 @@ composer.phar
 
 # phpunit itself is not needed
 phpunit.phar
+
 # local phpunit config
-/phpunit.xml
-createMysqlDBTable.php
+phpunit.xml
 
 # runtime log
 nohup.out
