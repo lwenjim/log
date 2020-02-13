@@ -4,12 +4,12 @@ use JimLog\Log;
 
 function debug($data, ?string $key = 'debug')
 {
-//    try {
+    try {
         $data = is_array($data) ? json_encode($data, JSON_UNESCAPED_UNICODE) : $data;
         Log::getInstance()->debug($key . '-' . $data);
-//    } catch (\Exception|\Error $exception) {
-//
-//    }
+    } catch (\Exception|\Error $exception) {
+
+    }
 }
 
 function error($data, ?string $key = 'error')

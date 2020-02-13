@@ -8,11 +8,16 @@
 
 namespace JimLog;
 
+use Composer\Autoload\ClassLoader;
+
+/**
+ * Class Config
+ * @method  static Ini basic()
+ * @package JimLog
+ */
+
 class Config
 {
-    const CONF_PATH    = '../config/';
-    const APP_PATH     = '../';
-    const RUNTIME_PATH = '../runtime';
     const ENV_DEV      = 'dev';
     const ENV_TEST     = 'test';
     const ENV_PRE      = 'pre';
@@ -48,7 +53,7 @@ class Config
     public static function loadIni()
     {
         foreach (static::getUnit() as $name) {
-            $configFile = Config::CONF_PATH . "/{$name}.ini";
+            $configFile = self::getAppPath() . "/config/{$name}.ini";
             $key        = "{$name}_ini";
             self::cacheIni($key, new Ini($configFile));
         }
@@ -58,7 +63,13 @@ class Config
     {
         return array_map(function ($file) {
             return pathinfo($file, PATHINFO_FILENAME);
-        }, array_diff(scandir(Config::CONF_PATH), ['.', '..']));
+        }, array_diff(scandir(self::getAppPath().'config/'), ['.', '..']));
+    }
+
+    public static function getAppPath()
+    {
+        $filename = (new \ReflectionClass(ClassLoader::class))->getMethods()[0]->getDeclaringClass()->getFilename();
+        return substr($filename, 0, strpos($filename, 'vendor/'));
     }
 
     public static function getEnv()
