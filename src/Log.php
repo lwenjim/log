@@ -55,7 +55,7 @@ class Log
 
     protected function getPath()
     {
-        return $this->ini->get('path') . '/' . $this->ini->get('channel') . '-' . date('Y-m-d') . '.log';
+        return Config::getAppPath(). $this->ini->get('path') . '/' . $this->ini->get('channel') . '-' . date('Y-m-d') . '.log';
     }
 
     protected function getOutputTemplate()
