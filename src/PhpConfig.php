@@ -10,16 +10,18 @@
 namespace JimLog;
 
 
-class Ini
+class PhpConfig
 {
     protected $configFile;
     protected $data;
 
-    public function __construct($configFile, $channel = 'default')
+    public function __construct($configFile)
     {
         $this->configFile = $configFile;
-        $data             = parse_ini_file($configFile, true);
-        $this->data       = $data['common'] + $data[Config::ENV . ':common'];
+        if (!file_exists($configFile)) {
+            throw new \Exception(sprintf('配置文件%s不存在', $configFile));;
+        }
+        $this->data = include_once $configFile;
     }
 
     public function getData()
@@ -54,7 +56,11 @@ class Ini
 
     public function getAndImplode($key, $glue = "", $replace = '')
     {
-        $str = implode($glue, $this->get($key));
+        $str = implode($glue, array_map(function ($item) use ($glue) {
+            if (is_array($item)) {
+                return implode($glue, $item);
+            }
+        }, $this->get($key)));
         if ($replace != '') {
             return sprintf($str, $replace);
         }

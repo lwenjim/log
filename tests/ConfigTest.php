@@ -21,9 +21,7 @@ class ConfigTest extends TestCase
      */
     public function testT1()
     {
-        Config::loadIni();
-        debug(Config::get('get_course'));
-        print_r(Config::getAndImplode(['domain', 'get_course']));
+        print_r(Config::getAndImplode(['log']));
         $this->assertEquals(1, 1);
     }
 

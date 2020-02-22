@@ -12,18 +12,17 @@ use Composer\Autoload\ClassLoader;
 
 /**
  * Class Config
- * @method  static Ini basic()
+ * @method  static PhpConfig basic()
  * @package JimLog
  */
-
 class Config
 {
-    const ENV_DEV      = 'dev';
-    const ENV_TEST     = 'test';
-    const ENV_PRE      = 'pre';
-    const ENV_PROD     = 'prod';
-    const ENV          = 'dev';
-
+    const ENV_DEV  = 'dev';
+    const ENV_TEST = 'test';
+    const ENV_PRE  = 'pre';
+    const ENV_PROD = 'prod';
+    const ENV      = 'dev';
+    protected  static      $locked  = false;
     protected static $configs = [];
 
     public static function get($key)
@@ -33,37 +32,39 @@ class Config
 
     public static function getAndImplode($key, $glue = "", $replace = '')
     {
-        return self::ini()->getAndImplode($key, $glue, $replace);
+        return self::getConfig()->getAndImplode($key, $glue, $replace);
     }
 
-    protected static function cacheIni($key, Ini $ini)
+    protected static function cacheIni($key, PhpConfig $ini)
     {
         self::$configs[$key] = $ini;
     }
 
-    public static function ini($name = 'basic')
+    public static function getConfig($name = 'config')
     {
-        $name .= '_ini';
+        if (!self::$locked){
+            self::loadConfig();
+        }
         if (!isset(self::$configs[$name])) {
             throw new \Exception(sprintf('Not found Config for %s', $name));
         }
+        self::$locked = true;
         return self::$configs[$name];
     }
 
-    public static function loadIni()
+    public static function loadConfig()
     {
         foreach (static::getUnit() as $name) {
-            $configFile = self::getAppPath() . "/config/{$name}.ini";
-            $key        = "{$name}_ini";
-            self::cacheIni($key, new Ini($configFile));
+            $configFile = self::getAppPath() . "/config/{$name}";
+            self::cacheIni(substr($name, 0, strrpos($name, '.')), new PhpConfig($configFile));
         }
     }
 
     public static function getUnit()
     {
-        return array_map(function ($file) {
-            return pathinfo($file, PATHINFO_FILENAME);
-        }, array_diff(scandir(self::getAppPath().'config/'), ['.', '..']));
+        return array_filter(array_diff(scandir(self::getAppPath() . 'config/'), ['.', '..']), function ($file) {
+            return pathinfo($file, PATHINFO_EXTENSION) == 'php';
+        });
     }
 
     public static function getAppPath()
@@ -79,6 +80,6 @@ class Config
 
     public static function __callStatic($name, $arguments)
     {
-        return self::ini($name);
+        return self::getConfig($name);
     }
 }

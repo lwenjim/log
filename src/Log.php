@@ -34,7 +34,7 @@ class Log
      */
     public function __construct()
     {
-        $this->ini = Config::ini('log');
+        $this->ini = Config::getConfig('log');
         $this->log = (new Logger($this->ini->get('channel')))->pushHandler($this->getHandler());
         $this->clear();
     }
