@@ -12,7 +12,7 @@ use Composer\Autoload\ClassLoader;
 
 /**
  * Class Config
- * @method  static PhpConfig basic()
+ * @method  static PhpConfig config()
  * @package JimLog
  */
 class Config
@@ -27,7 +27,7 @@ class Config
 
     public static function get($key)
     {
-        return self::basic()->get($key);
+        return self::config()->get($key);
     }
 
     public static function getAndImplode($key, $glue = "", $replace = '')

@@ -8,7 +8,7 @@ function debug($data, ?string $key = 'debug')
         $data = is_array($data) ? json_encode($data, JSON_UNESCAPED_UNICODE) : $data;
         Log::getInstance()->debug($key . '-' . $data);
     } catch (\Exception|\Error $exception) {
-
+        echo $exception->getMessage();exit;
     }
 }
 

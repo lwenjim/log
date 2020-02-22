@@ -21,7 +21,7 @@ class ConfigTest extends TestCase
      */
     public function testT1()
     {
-        print_r(Config::getAndImplode(['log']));
+        print_r(Config::get('log')['path']);
         $this->assertEquals(1, 1);
     }
 

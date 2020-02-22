@@ -56,11 +56,7 @@ class PhpConfig
 
     public function getAndImplode($key, $glue = "", $replace = '')
     {
-        $str = implode($glue, array_map(function ($item) use ($glue) {
-            if (is_array($item)) {
-                return implode($glue, $item);
-            }
-        }, $this->get($key)));
+        $str = implode($glue, $this->get($key));
         if ($replace != '') {
             return sprintf($str, $replace);
         }

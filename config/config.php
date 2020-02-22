@@ -10,6 +10,7 @@ use JimLog\Config;
 
 return [
     'log' => [
-        'path' => Config::getAppPath() . 'runtime/log',
+        'path'    => Config::getAppPath() . 'runtime/log',
+        'channel' => 'yx_course'
     ],
 ];

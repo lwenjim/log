@@ -17,7 +17,7 @@ class Log
     protected        $log      = null;
     protected        $rate     = 0;
     protected        $handler  = null;
-    protected        $ini      = null;
+    protected        $config   = null;
     protected static $instance = null;
 
     public static function getInstance(): self
@@ -34,8 +34,8 @@ class Log
      */
     public function __construct()
     {
-        $this->ini = Config::getConfig('log');
-        $this->log = (new Logger($this->ini->get('channel')))->pushHandler($this->getHandler());
+        $this->config = Config::get('log');
+        $this->log    = (new Logger($this->config['channel']))->pushHandler($this->getHandler());
         $this->clear();
     }
 
@@ -55,7 +55,7 @@ class Log
 
     protected function getPath()
     {
-        return Config::getAppPath(). $this->ini->get('path') . '/' . $this->ini->get('channel') . '-' . date('Y-m-d') . '.log';
+        return Config::getAppPath(). $this->config['path'] . '/' . $this->config['channel'] . '-' . date('Y-m-d') . '.log';
     }
 
     protected function getOutputTemplate()
@@ -66,7 +66,7 @@ class Log
     protected function clear()
     {
         if (Config::getEnv() !== Config::ENV_DEV) return;
-        foreach (glob($this->ini->get('path') . "/*.log") as $value) {
+        foreach (glob($this->config['path'] . "/*.log") as $value) {
             if (!file_exists($value)) continue;
             if (date('Y-m-d') == date('Y-m-d', filemtime($value))) continue;
             unlink($value);
